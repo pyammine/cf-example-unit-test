@@ -1,8 +1,8 @@
 # Unit tests example
 
-This is a single Git repository that holds two microservices (Pythong and GO) that demonstrate different ways of running unit tests with Codefresh.
+This is a single Git repository that holds two microservices (Python and GO) that demonstrates different ways of running unit tests with Codefresh.
 
-## Packing the Go app
+## Packaging the Go app
 
 To compile and package using Docker 
 
@@ -11,13 +11,13 @@ cd golang-app-A
 docker build . -t my-go-app
 ```
 
-## Packing the Python app
+## Packaging the Python app
 
 To compile and package using Docker 
 
 ```bash
 cd python-app-B
-docker build . -t my-go-app
+docker build . -t my-python-app
 ```
 
 
