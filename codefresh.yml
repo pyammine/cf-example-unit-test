@@ -19,7 +19,7 @@ steps:
     commands:
       - go test -v
   build_after_my_tests:
-    title: Building Docker Image
+    title: Building Go Docker Image
     type: build
     stage: 'Microservice A'
     image_name: my-go-image
@@ -27,7 +27,7 @@ steps:
     tag: 'master'
     dockerfile: Dockerfile
   build_before_my_tests:
-    title: Building Docker Image
+    title: Building Python Docker Image
     type: build
     stage: 'Microservice B'
     image_name: my-python-image
