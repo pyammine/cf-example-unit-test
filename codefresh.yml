@@ -1,15 +1,43 @@
 version: '1.0'
-
+stages:
+  - prepare
+  - 'Microservice A'
+  - 'Microservice B'
 steps:
-  build_prj:
-    type: build
-    description: UC - build step
-    image_name: codefreshio/yaml-example-unit-test
-    dockerfile: Dockerfile
-    tag: ${{CF_BRANCH}}
-
-  unit_test:
-    image: node:latest
+  main_clone:
+    title: Cloning main repository...
+    type: git-clone
+    repo: 'codefreshdemo/cf-example-unit-test'
+    revision: 'master'
+    git: github
+    stage: prepare
+  run_my_tests_before_build:
+    title: Running Unit tests directly
+    stage: 'Microservice A'
+    image: golang:1.12
+    working_directory: './golang-app-A'
     commands:
-        - npm -v
-        - echo start test # command to start unit test
+      - go test -v
+  build_after_my_tests:
+    title: Building Docker Image
+    type: build
+    stage: 'Microservice A'
+    image_name: my-go-image
+    working_directory: './golang-app-A'
+    tag: 'master'
+    dockerfile: Dockerfile
+  build_before_my_tests:
+    title: Building Docker Image
+    type: build
+    stage: 'Microservice B'
+    image_name: my-python-image
+    working_directory: './python-app-B'
+    tag: 'master'
+    dockerfile: Dockerfile
+  run_my_tests_inside_image:
+    title: Running Unit tests inside App image
+    stage: 'Microservice B'
+    image: ${{build_before_my_tests}}
+    working_directory: '/app'
+    commands:
+      - python setup.py test   
