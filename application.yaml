@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: python
+spec:
+  destination:
+    name: ''
+    namespace: myapp
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: python-app-B
+    repoURL: 'https://github.com/pyammine/cf-example-unit-test.git'
+    targetRevision: HEAD
+    directory:
+      recurse: true
+  sources: []
+  project: myapp
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
